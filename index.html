@@ -1,12 +1,647 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>My Web App</title>
-  </head>
-  <body style="font-family: system-ui; padding: 40px;">
-    <h1>Hello 👋</h1>
-    <p>Your web app is live.</p>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific & Engineering Agent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00d9ff;
+            --secondary: #7c3aed;
+            --accent: #f59e0b;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        #particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--light);
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        .typing-demo {
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+            text-align: left;
+            min-height: 60px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+
+        .typing-text {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2rem;
+            background: var(--primary);
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.9s forwards;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.4);
+        }
+
+        /* Capabilities Section */
+        .capabilities {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .capability-card {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .capability-card:nth-child(1) { animation-delay: 0.1s; }
+        .capability-card:nth-child(2) { animation-delay: 0.2s; }
+        .capability-card:nth-child(3) { animation-delay: 0.3s; }
+        .capability-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .capability-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(0, 217, 255, 0.3);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .card-description {
+            color: var(--light);
+            line-height: 1.6;
+        }
+
+        /* Terminal Demo Section */
+        .terminal-demo {
+            background: rgba(15, 23, 42, 0.6);
+            padding: 4rem 2rem;
+        }
+
+        .terminal-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #1e293b;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .terminal-header {
+            background: #0f172a;
+            padding: 0.8rem;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #f59e0b; }
+        .dot-green { background: #10b981; }
+
+        .terminal-body {
+            padding: 2rem;
+            font-family: 'Courier New', monospace;
+            min-height: 300px;
+        }
+
+        .terminal-line {
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .prompt {
+            color: var(--primary);
+        }
+
+        .output {
+            color: #10b981;
+            margin-left: 1rem;
+        }
+
+        .thinking {
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        /* Features Grid */
+        .features {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 2rem;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .feature-item:nth-child(1) { animation-delay: 0.1s; }
+        .feature-item:nth-child(2) { animation-delay: 0.2s; }
+        .feature-item:nth-child(3) { animation-delay: 0.3s; }
+        .feature-item:nth-child(4) { animation-delay: 0.4s; }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(0, 217, 255, 0.2);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            nav .nav-links {
+                gap: 1rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li class="logo">⚛️ SciAgent</li>
+            <li class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#capabilities">Capabilities</a>
+                <a href="#demo">Demo</a>
+                <a href="#docs">Docs</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <canvas id="particles"></canvas>
+        <div class="hero-content">
+            <h1>Advanced Scientific & Engineering Agent</h1>
+            <p>Accelerate your research with AI-powered analysis, simulation, and computation</p>
+            
+            <div class="typing-demo">
+                <span class="prompt">➜</span> <span class="typing-text" id="typingText"></span><span class="cursor"></span>
+            </div>
+
+            <a href="#demo" class="cta-button">Try It Now</a>
+        </div>
+    </section>
+
+    <!-- Capabilities Section -->
+    <section class="capabilities" id="capabilities">
+        <h2 class="section-title">Powerful Capabilities</h2>
+        <div class="cards-grid">
+            <div class="capability-card">
+                <span class="card-icon">🧮</span>
+                <h3 class="card-title">Mathematical Analysis</h3>
+                <p class="card-description">Solve complex equations, perform symbolic mathematics, and analyze numerical data with precision.</p>
+            </div>
+
+            <div class="capability-card">
+                <span class="card-icon">🔬</span>
+                <h3 class="card-title">Scientific Computing</h3>
+                <p class="card-description">Run simulations, process experimental data, and perform statistical analysis across disciplines.</p>
+            </div>
+
+            <div class="capability-card">
+                <span class="card-icon">⚙️</span>
+                <h3 class="card-title">Engineering Design</h3>
+                <p class="card-description">Optimize designs, analyze structures, and model physical systems with advanced algorithms.</p>
+            </div>
+
+            <div class="capability-card">
+                <span class="card-icon">💻</span>
+                <h3 class="card-title">Code Generation</h3>
+                <p class="card-description">Generate Python, MATLAB, and Julia code for your scientific computing needs.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Terminal Demo Section -->
+    <section class="terminal-demo" id="demo">
+        <h2 class="section-title">See It In Action</h2>
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <div class="terminal-dot dot-red"></div>
+                <div class="terminal-dot dot-yellow"></div>
+                <div class="terminal-dot dot-green"></div>
+            </div>
+            <div class="terminal-body" id="terminalBody">
+                <!-- Terminal content will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2 class="section-title">Why Choose SciAgent?</h2>
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="feature-icon" style="color: var(--primary)">⚡</div>
+                <h3 class="feature-title">Lightning Fast</h3>
+                <p>Instant responses for real-time problem solving</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon" style="color: var(--secondary)">🎯</div>
+                <h3 class="feature-title">Highly Accurate</h3>
+                <p>Validated algorithms and peer-reviewed methods</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon" style="color: var(--accent)">🔄</div>
+                <h3 class="feature-title">Continuous Learning</h3>
+                <p>Updates with latest scientific developments</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon" style="color: #10b981">🔒</div>
+                <h3 class="feature-title">Secure & Private</h3>
+                <p>Your data and research remain confidential</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 SciAgent. All rights reserved. | <a href="#docs" style="color: var(--primary)">Documentation</a></p>
+    </footer>
+
+    <script>
+        // Particle Animation
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = 100;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2 + 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(0, 217, 255, 0.5)';
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            // Draw connections
+            particles.forEach((p1, i) => {
+                particles.slice(i + 1).forEach(p2 => {
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = `rgba(0, 217, 255, ${0.2 * (1 - distance / 100)})`;
+                        ctx.stroke();
+                    }
+                });
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Typing Animation
+        const queries = [
+            "Solve the Navier-Stokes equation for turbulent flow...",
+            "Analyze protein folding dynamics...",
+            "Optimize thermal efficiency of heat exchanger...",
+            "Calculate eigenvalues of quantum system..."
+        ];
+
+        let queryIndex = 0;
+        let charIndex = 0;
+        const typingElement = document.getElementById('typingText');
+
+        function typeWriter() {
+            if (charIndex < queries[queryIndex].length) {
+                typingElement.textContent += queries[queryIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, 50);
+            } else {
+                setTimeout(() => {
+                    eraseText();
+                }, 3000);
+            }
+        }
+
+        function eraseText() {
+            if (charIndex > 0) {
+                typingElement.textContent = queries[queryIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(eraseText, 30);
+            } else {
+                queryIndex = (queryIndex + 1) % queries.length;
+                setTimeout(typeWriter, 500);
+            }
+        }
+
+        setTimeout(typeWriter, 1000);
+
+        // Terminal Demo Animation
+        const terminalLines = [
+            { type: 'prompt', text: '➜ agent query "Calculate the Reynolds number for water flow at 2 m/s"' },
+            { type: 'thinking', text: 'Analyzing parameters...' },
+            { type: 'output', text: 'Reynolds Number (Re) = 4.0 × 10⁶' },
+            { type: 'output', text: 'Flow regime: Turbulent' },
+            { type: 'output', text: 'Hydraulic diameter: 1.0 m | Kinematic viscosity: 1.0 × 10⁻⁶ m²/s' },
+            { type: 'prompt', text: '' },
+            { type: 'prompt', text: '➜ agent simulate "Heat transfer in copper rod"' },
+            { type: 'thinking', text: 'Running finite element analysis...' },
+            { type: 'output', text: '✓ Simulation complete (125ms)' },
+            { type: 'output', text: 'Peak temperature: 423.5K | Thermal gradient: 45.2K/m' }
+        ];
+
+        function populateTerminal() {
+            const terminalBody = document.getElementById('terminalBody');
+            terminalLines.forEach((line, index) => {
+                setTimeout(() => {
+                    const div = document.createElement('div');
+                    div.className = `terminal-line ${line.type}`;
+                    div.textContent = line.text;
+                    terminalBody.appendChild(div);
+                }, index * 800);
+            });
+        }
+
+        // Observer for terminal animation
+        const terminalObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    populateTerminal();
+                    terminalObserver.disconnect();
+                }
+            });
+        });
+
+        terminalObserver.observe(document.querySelector('.terminal-demo'));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
 </html>
