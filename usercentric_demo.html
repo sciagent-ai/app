@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SciAgent — Visual Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --bg: #08080a;
+      --surface: #0c0c0e;
+      --surface2: #101012;
+      --border: #1a1a1e;
+      --border2: #252529;
+      --text: #f0f0f2;
+      --muted: #808088;
+      --dim: #505058;
+      --accent: #fff;
+      --glow: rgba(255,255,255,0.08);
+    }
+
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    .demo {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 16px 8px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #1a1a1e 0%, #0c0c0e 100%);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      font-size: 16px;
+    }
+    .brand-name {
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: -0.01em;
+    }
+    .tagline {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+      background: linear-gradient(180deg, #fff 0%, #a0a0a8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* Pipeline - simplified, no jargon */
+    .pipeline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .pipe-node {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      opacity: 0.4;
+      transition: all 0.25s ease;
+    }
+    .pipe-node.active {
+      opacity: 1;
+      border-color: var(--accent);
+      background: var(--surface2);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .pipe-node.done {
+      opacity: 1;
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--bg);
+    }
+    .pipe-icon {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .pipe-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .pipe-arrow {
+      color: var(--dim);
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    /* Domain tabs */
+    .domain-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .domain-tab {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+    .domain-tab:hover {
+      border-color: var(--border2);
+      color: var(--text);
+    }
+    .domain-tab.active {
+      border-color: var(--accent);
+      background: var(--surface2);
+      color: var(--text);
+    }
+    .domain-tab .icon {
+      font-size: 16px;
+    }
+
+    /* Application cards */
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .app-card {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .app-card:hover {
+      border-color: var(--border2);
+      background: var(--surface2);
+    }
+    .app-card.active {
+      border-color: var(--accent);
+      background: var(--surface2);
+    }
+    .app-title {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .app-task {
+      font-size: 13px;
+      color: var(--muted);
+      font-style: italic;
+      line-height: 1.4;
+    }
+    .app-task::before {
+      content: '"';
+    }
+    .app-task::after {
+      content: '"';
+    }
+
+    /* Run button */
+    .run-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+    .run-btn {
+      padding: 14px 48px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .run-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(255,255,255,0.1);
+    }
+    .run-btn:active {
+      transform: translateY(0);
+    }
+    .run-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Main content grid */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 800px) {
+      .main-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Panels */
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .panel.sleep {
+      opacity: 0.25;
+      filter: blur(1px);
+      pointer-events: none;
+    }
+    .panel.active {
+      border-color: var(--border2);
+      box-shadow: 0 0 0 1px var(--glow);
+    }
+    .panel-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+      background: linear-gradient(180deg, var(--surface2) 0%, var(--surface) 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .panel-icon {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .panel-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .panel-body {
+      padding: 16px;
+    }
+
+    /* Task panel */
+    .task-display {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .task-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 8px;
+    }
+    .task-text {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .cli-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .cli-prompt {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #6cf;
+      word-break: break-all;
+    }
+
+    /* Workflow steps */
+    .workflow-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .workflow-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+    .workflow-step.done {
+      background: var(--surface2);
+      border-color: var(--border2);
+    }
+    .workflow-step.done .step-check {
+      background: var(--accent);
+      color: var(--bg);
+    }
+    .step-num {
+      width: 22px;
+      height: 22px;
+      display: grid;
+      place-items: center;
+      background: var(--surface);
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+    .step-check {
+      width: 22px;
+      height: 22px;
+      display: grid;
+      place-items: center;
+      background: var(--surface);
+      border-radius: 6px;
+      font-size: 12px;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+    .step-text {
+      font-size: 12px;
+      color: var(--muted);
+      flex: 1;
+    }
+    .workflow-step.done .step-text {
+      color: var(--text);
+    }
+
+    /* Services */
+    .svc-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .svc-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+    .svc-card.active {
+      border-color: var(--border2);
+    }
+    .svc-status {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .svc-card.active .svc-status {
+      background: #4f4;
+      box-shadow: 0 0 10px #4f4;
+    }
+    .svc-icon {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .svc-info { flex: 1; min-width: 0; }
+    .svc-name {
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--text);
+    }
+    .svc-desc {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Files */
+    .file-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .file-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    .file-chip.done {
+      border-color: var(--border2);
+    }
+    .file-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 2px;
+      background: var(--border);
+      transition: all 0.2s ease;
+    }
+    .file-chip.done .file-dot {
+      background: var(--accent);
+    }
+    .file-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .file-chip.done .file-name {
+      color: var(--text);
+    }
+
+    /* Result panel */
+    .result {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 24px;
+      transition: all 0.3s ease;
+    }
+    .result.sleep {
+      opacity: 0.25;
+      filter: blur(1px);
+    }
+    .result.done {
+      border-color: #4a9;
+      box-shadow: 0 0 0 1px rgba(68,170,153,0.15);
+    }
+    .result-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .result-icon {
+      font-size: 20px;
+      color: #4a9;
+    }
+    .result-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .result-text {
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.6;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .result-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .result-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* Footer */
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--dim);
+    }
+    .footer code {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--surface);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .footer-dot {
+      color: var(--border2);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="demo" id="demo">
+    <header class="header">
+      <div class="brand">
+        <span class="brand-icon">▣</span>
+        <span class="brand-name">SciAgent</span>
+      </div>
+      <h1 class="tagline">Ask → Plan → Compute → Results</h1>
+      <p class="subtitle">LLM-powered scientific computing across domains</p>
+    </header>
+
+    <div class="pipeline" id="pipeline"></div>
+
+    <div class="domain-tabs" id="domain-tabs"></div>
+
+    <div class="app-grid" id="app-grid"></div>
+
+    <div class="run-wrap">
+      <button class="run-btn" id="run-btn">Run Workflow</button>
+    </div>
+
+    <div class="main-grid">
+      <div class="panel" id="panel-task">
+        <div class="panel-head">
+          <span class="panel-icon">💬</span>
+          <span class="panel-title">Your Request</span>
+        </div>
+        <div class="panel-body">
+          <div class="task-display">
+            <div class="task-label">Task</div>
+            <div class="task-text" id="task-text"></div>
+          </div>
+          <div class="cli-box">
+            <code class="cli-prompt" id="cli-prompt"></code>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel sleep" id="panel-workflow">
+        <div class="panel-head">
+          <span class="panel-icon">⚡</span>
+          <span class="panel-title">Workflow Steps</span>
+        </div>
+        <div class="panel-body">
+          <div class="workflow-steps" id="workflow-steps"></div>
+        </div>
+      </div>
+
+      <div class="panel sleep" id="panel-svc">
+        <div class="panel-head">
+          <span class="panel-icon">🔧</span>
+          <span class="panel-title">Services Used</span>
+        </div>
+        <div class="panel-body">
+          <div class="svc-list" id="svc-list"></div>
+        </div>
+      </div>
+
+      <div class="panel sleep" id="panel-art">
+        <div class="panel-head">
+          <span class="panel-icon">📄</span>
+          <span class="panel-title">Output Files</span>
+        </div>
+        <div class="panel-body">
+          <div class="file-grid" id="file-grid"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result sleep" id="result">
+      <div class="result-head">
+        <span class="result-icon">✓</span>
+        <span class="result-label">Result</span>
+      </div>
+      <p class="result-text" id="result-text"></p>
+      <div class="result-meta">
+        <span class="result-chip">✓ Validated</span>
+        <span class="result-chip">📄 Files saved</span>
+        <span class="result-chip">↻ Reproducible</span>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <code>pip install sciagent</code>
+      <span class="footer-dot">·</span>
+      <span>Claude · GPT-4 · Gemini · Local</span>
+      <span class="footer-dot">·</span>
+      <span>Apache 2.0</span>
+    </footer>
+  </div>
+
+<script>
+(function() {
+  // Domains with user-friendly names and real services from registry.yaml
+  const DOMAINS = [
+    { id: 'photonics', name: 'Photonics', icon: '◈' },
+    { id: 'chemistry', name: 'Chemistry', icon: '⬡' },
+    { id: 'biology', name: 'Biology', icon: '🧬' },
+    { id: 'materials', name: 'Materials', icon: '⚛' },
+    { id: 'fluids', name: 'Fluids & Thermal', icon: '≋' },
+    { id: 'structures', name: 'Structures', icon: '△' },
+    { id: 'circuits', name: 'Circuits', icon: '⏚' },
+    { id: 'math', name: 'Mathematics', icon: 'π' },
+  ];
+
+  // Applications organized by domain with human-readable tasks
+  // Services are real from registry.yaml
+  const APPLICATIONS = {
+    photonics: [
+      {
+        id: 'grating',
+        title: 'Grating coupler optimization',
+        task: 'Optimize a grating coupler for 1550nm with >50% efficiency',
+        cli: 'sciagent "Optimize a grating coupler for 1550nm telecom wavelength targeting >50% coupling efficiency"',
+        steps: [
+          'Parse design requirements and constraints',
+          'Generate initial grating geometry',
+          'Run electromagnetic parameter sweep',
+          'Optimize period and fill factor',
+          'Validate with FDTD simulation',
+        ],
+        services: [
+          { name: 'rcwa', desc: 'Rigorous coupled wave analysis', icon: '◇' },
+          { name: 'meep', desc: 'FDTD electromagnetic simulation', icon: '▦' },
+          { name: 'scipy-base', desc: 'Optimization algorithms', icon: '∑' },
+        ],
+        files: ['design.gds', 'sweep_results.csv', 'efficiency.png', 'report.md'],
+        result: 'Optimized grating achieves 62% coupling efficiency at 1550nm, 40nm bandwidth',
+      },
+      {
+        id: 'waveguide',
+        title: 'Waveguide bend analysis',
+        task: 'Design a low-loss 90° waveguide bend for a silicon photonics chip',
+        cli: 'sciagent "Design a 90-degree waveguide bend with <0.1dB loss for 220nm SOI"',
+        steps: [
+          'Define waveguide cross-section and materials',
+          'Generate bend geometry variants',
+          'Simulate mode propagation',
+          'Calculate bend loss vs radius',
+          'Select optimal design',
+        ],
+        services: [
+          { name: 'meep', desc: 'FDTD mode simulation', icon: '▦' },
+          { name: 'scipy-base', desc: 'Data analysis', icon: '∑' },
+        ],
+        files: ['bend.gds', 'mode_profile.png', 'loss_vs_radius.csv'],
+        result: 'Optimal bend radius 5μm achieves 0.04dB loss per 90° turn',
+      },
+    ],
+    chemistry: [
+      {
+        id: 'screening',
+        title: 'Drug-likeness screening',
+        task: 'Screen a compound library for CNS drug candidates',
+        cli: 'sciagent "Screen compounds.sdf for CNS permeability using Lipinski and BBB rules"',
+        steps: [
+          'Load molecular structures from file',
+          'Calculate physicochemical descriptors',
+          'Apply Lipinski rule of 5 filters',
+          'Predict blood-brain barrier penetration',
+          'Rank and cluster top candidates',
+        ],
+        services: [
+          { name: 'rdkit', desc: 'Molecular descriptors & filtering', icon: '⬡' },
+          { name: 'scipy-base', desc: 'Clustering analysis', icon: '∑' },
+        ],
+        files: ['hits.csv', 'scaffolds.smi', 'diversity_plot.png', 'report.md'],
+        result: '47 compounds pass filters; 3 novel scaffolds identified with predicted logBB > 0.3',
+      },
+      {
+        id: 'similarity',
+        title: 'Molecular similarity search',
+        task: 'Find analogs similar to my lead compound',
+        cli: 'sciagent "Find molecules in library.sdf with Tanimoto similarity >0.7 to lead.mol"',
+        steps: [
+          'Parse lead compound structure',
+          'Generate Morgan fingerprints',
+          'Calculate pairwise similarities',
+          'Rank by Tanimoto coefficient',
+          'Cluster similar compounds',
+        ],
+        services: [
+          { name: 'rdkit', desc: 'Fingerprints & similarity', icon: '⬡' },
+          { name: 'scipy-base', desc: 'Clustering', icon: '∑' },
+        ],
+        files: ['similar_compounds.csv', 'similarity_matrix.png', 'clusters.smi'],
+        result: '23 analogs found with Tanimoto >0.7; top hit shares 89% similarity',
+      },
+    ],
+    biology: [
+      {
+        id: 'protein-stability',
+        title: 'Protein stability analysis',
+        task: 'Check if my protein stays stable over 100ns simulation',
+        cli: 'sciagent "Run 100ns MD simulation of protein.pdb and analyze RMSD stability"',
+        steps: [
+          'Prepare protein topology',
+          'Solvate and add ions',
+          'Energy minimization',
+          'Equilibration (NVT then NPT)',
+          'Production MD run',
+          'Analyze RMSD and RMSF',
+        ],
+        services: [
+          { name: 'gromacs', desc: 'Molecular dynamics engine', icon: '⚛' },
+          { name: 'scipy-base', desc: 'Trajectory analysis', icon: '∑' },
+        ],
+        files: ['trajectory.xtc', 'rmsd.xvg', 'rmsf.png', 'stability_report.md'],
+        result: 'Protein equilibrates at 15ns; RMSD stable at 2.1±0.3Å; no unfolding observed',
+      },
+      {
+        id: 'sequence-homology',
+        title: 'Sequence homology search',
+        task: 'Find evolutionary relatives of my protein sequence',
+        cli: 'sciagent "BLAST search for homologs of sequence.fasta against UniProt"',
+        steps: [
+          'Parse input sequence',
+          'Format BLAST database',
+          'Run sequence alignment search',
+          'Filter by E-value and coverage',
+          'Generate phylogenetic overview',
+        ],
+        services: [
+          { name: 'blast', desc: 'Sequence alignment search', icon: '🔍' },
+          { name: 'biopython', desc: 'Sequence analysis', icon: '🧬' },
+        ],
+        files: ['blast_results.xml', 'top_hits.csv', 'alignment.txt'],
+        result: '156 homologs found; closest match 78% identity to human ortholog',
+      },
+    ],
+    materials: [
+      {
+        id: 'crystal-energy',
+        title: 'Crystal structure analysis',
+        task: 'Calculate the lattice energy and stability of a crystal',
+        cli: 'sciagent "Calculate lattice parameters and cohesive energy for silicon.cif"',
+        steps: [
+          'Load crystal structure',
+          'Set up calculator interface',
+          'Optimize atomic positions',
+          'Calculate total energy',
+          'Compute cohesive energy per atom',
+        ],
+        services: [
+          { name: 'ase', desc: 'Atomic simulation environment', icon: '⚛' },
+          { name: 'scipy-base', desc: 'Numerical optimization', icon: '∑' },
+        ],
+        files: ['optimized.cif', 'energy.json', 'structure.png'],
+        result: 'Lattice parameter a=5.43Å; cohesive energy 4.63 eV/atom matches experiment',
+      },
+      {
+        id: 'surface',
+        title: 'Surface energy calculation',
+        task: 'Calculate surface energies for different crystal facets',
+        cli: 'sciagent "Calculate surface energies for (100), (110), (111) facets of aluminum"',
+        steps: [
+          'Generate bulk reference structure',
+          'Create surface slab models',
+          'Relax surface atoms',
+          'Calculate surface formation energy',
+          'Compare facet stability',
+        ],
+        services: [
+          { name: 'ase', desc: 'Surface construction & analysis', icon: '⚛' },
+          { name: 'scipy-base', desc: 'Energy calculations', icon: '∑' },
+        ],
+        files: ['surfaces.cif', 'surface_energies.csv', 'wulff_shape.png'],
+        result: 'Surface energies: (111) 0.71, (100) 0.89, (110) 0.96 J/m² — (111) most stable',
+      },
+    ],
+    fluids: [
+      {
+        id: 'airfoil',
+        title: 'Airfoil lift/drag analysis',
+        task: 'Calculate lift and drag coefficients for an airfoil',
+        cli: 'sciagent "Simulate NACA 0012 airfoil at Re=1e6, angles 0-15°, report Cl/Cd"',
+        steps: [
+          'Generate airfoil geometry',
+          'Create computational mesh',
+          'Set up turbulence model',
+          'Run flow simulations at each angle',
+          'Extract lift and drag coefficients',
+        ],
+        services: [
+          { name: 'gmsh', desc: 'Mesh generation', icon: '△' },
+          { name: 'openfoam', desc: 'CFD solver', icon: '≋' },
+          { name: 'scipy-base', desc: 'Post-processing', icon: '∑' },
+        ],
+        files: ['mesh.msh', 'Cl_Cd.csv', 'pressure_contour.png', 'polar.png'],
+        result: 'Cl/Cd max at α=8°; Cl=0.95, Cd=0.012; within 2% of experimental data',
+      },
+      {
+        id: 'heat-transfer',
+        title: 'Heat sink performance',
+        task: 'Validate cooling performance of a heat sink design',
+        cli: 'sciagent "Simulate heat sink with 50W load, 25°C ambient, find max junction temp"',
+        steps: [
+          'Import heat sink geometry',
+          'Define thermal boundary conditions',
+          'Set up conjugate heat transfer',
+          'Run steady-state simulation',
+          'Extract temperature distribution',
+        ],
+        services: [
+          { name: 'gmsh', desc: 'Thermal mesh', icon: '△' },
+          { name: 'elmer', desc: 'Heat transfer solver', icon: '🔥' },
+        ],
+        files: ['temperature.vtk', 'thermal_resistance.txt', 'temp_distribution.png'],
+        result: 'Max junction temperature 67°C; thermal resistance 0.84 K/W — within spec',
+      },
+    ],
+    structures: [
+      {
+        id: 'bracket-stress',
+        title: 'Bracket stress check',
+        task: 'Check if this bracket passes under 500N load',
+        cli: 'sciagent "FEM analysis of bracket.step under 500N load, check von Mises vs yield"',
+        steps: [
+          'Import CAD geometry',
+          'Generate FEM mesh',
+          'Define material properties',
+          'Apply loads and constraints',
+          'Solve linear elastic problem',
+          'Extract stress distribution',
+        ],
+        services: [
+          { name: 'gmsh', desc: 'FEM mesh generation', icon: '△' },
+          { name: 'elmer', desc: 'Structural FEM solver', icon: '▽' },
+          { name: 'scipy-base', desc: 'Results analysis', icon: '∑' },
+        ],
+        files: ['mesh.msh', 'stress.vtk', 'displacement.png', 'report.md'],
+        result: 'Max von Mises 127 MPa vs 250 MPa yield — Safety factor 2.0 ✓ PASS',
+      },
+      {
+        id: 'modal',
+        title: 'Modal frequency analysis',
+        task: 'Find natural frequencies to avoid resonance issues',
+        cli: 'sciagent "Calculate first 10 natural frequencies of beam.step, check against 60Hz"',
+        steps: [
+          'Import structure geometry',
+          'Create modal analysis mesh',
+          'Set up eigenvalue problem',
+          'Solve for mode shapes',
+          'Check frequency separation',
+        ],
+        services: [
+          { name: 'gmsh', desc: 'Modal mesh', icon: '△' },
+          { name: 'elmer', desc: 'Eigenvalue solver', icon: '▽' },
+        ],
+        files: ['modes.vtk', 'frequencies.csv', 'mode_shapes.png'],
+        result: 'First mode at 142 Hz — well above 60Hz excitation, no resonance risk',
+      },
+    ],
+    circuits: [
+      {
+        id: 'filter',
+        title: 'Bandpass filter design',
+        task: 'Design a 10MHz bandpass filter that meets spec',
+        cli: 'sciagent "Design 10MHz bandpass filter, Q=10, match to 50Ω, use standard values"',
+        steps: [
+          'Calculate filter topology (Butterworth)',
+          'Determine L and C values',
+          'Snap to E96 standard values',
+          'Simulate frequency response',
+          'Optimize component values',
+        ],
+        services: [
+          { name: 'ngspice', desc: 'SPICE circuit simulator', icon: '⏚' },
+          { name: 'scipy-base', desc: 'Filter synthesis', icon: '∑' },
+        ],
+        files: ['schematic.net', 'bode_plot.png', 'bom.csv', 'netlist.spice'],
+        result: 'Center frequency 10.02 MHz, -3dB bandwidth ±0.5MHz, uses E96 values',
+      },
+      {
+        id: 'amplifier',
+        title: 'Amplifier analysis',
+        task: 'Analyze gain and bandwidth of this amplifier circuit',
+        cli: 'sciagent "Analyze amplifier.spice for gain, bandwidth, and input/output impedance"',
+        steps: [
+          'Parse SPICE netlist',
+          'Run DC operating point',
+          'AC frequency sweep',
+          'Calculate gain and phase',
+          'Find -3dB bandwidth',
+        ],
+        services: [
+          { name: 'ngspice', desc: 'AC/DC analysis', icon: '⏚' },
+          { name: 'scipy-base', desc: 'Data processing', icon: '∑' },
+        ],
+        files: ['ac_analysis.csv', 'bode.png', 'report.md'],
+        result: 'Gain 34dB at 1kHz, bandwidth 2.1MHz, input Z 10kΩ, output Z 150Ω',
+      },
+    ],
+    math: [
+      {
+        id: 'equations',
+        title: 'Equations of motion derivation',
+        task: 'Derive equations of motion for a double pendulum',
+        cli: 'sciagent "Derive Lagrangian and equations of motion for double pendulum system"',
+        steps: [
+          'Define generalized coordinates',
+          'Calculate kinetic energy T',
+          'Calculate potential energy V',
+          'Form Lagrangian L = T - V',
+          'Apply Euler-Lagrange equations',
+          'Simplify and export',
+        ],
+        services: [
+          { name: 'sympy', desc: 'Symbolic mathematics', icon: 'π' },
+          { name: 'scipy-base', desc: 'Numerical verification', icon: '∑' },
+        ],
+        files: ['lagrangian.tex', 'equations.py', 'phase_portrait.png'],
+        result: 'Derived 2 coupled 2nd-order ODEs; verified numerically for small angles',
+      },
+      {
+        id: 'portfolio',
+        title: 'Portfolio optimization',
+        task: 'Find optimal portfolio weights for target return',
+        cli: 'sciagent "Optimize portfolio for 12% annual return, minimize variance, no shorting"',
+        steps: [
+          'Load historical return data',
+          'Estimate covariance matrix',
+          'Formulate QP problem',
+          'Solve with constraints',
+          'Calculate efficient frontier',
+        ],
+        services: [
+          { name: 'cvxpy', desc: 'Convex optimization solver', icon: '∫' },
+          { name: 'scipy-base', desc: 'Statistics & analysis', icon: '∑' },
+        ],
+        files: ['weights.csv', 'efficient_frontier.png', 'risk_report.md'],
+        result: 'Optimal Sharpe ratio 1.42 vs benchmark 0.91; expected volatility 8.3%',
+      },
+    ],
+  };
+
+  const STAGES = ['ask', 'plan', 'compute', 'results'];
+  const STAGE_LABELS = {
+    ask: 'Ask',
+    plan: 'Plan',
+    compute: 'Compute',
+    results: 'Results'
+  };
+  const STAGE_ICONS = {
+    ask: '💬',
+    plan: '📋',
+    compute: '⚡',
+    results: '✓'
+  };
+
+  let currentDomain = DOMAINS[0];
+  let currentApp = APPLICATIONS[currentDomain.id][0];
+  let running = false;
+  let timeouts = [];
+
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => document.querySelectorAll(s);
+
+  function clearTimeouts() {
+    timeouts.forEach(clearTimeout);
+    timeouts = [];
+  }
+
+  function delay(ms) {
+    return new Promise(r => {
+      const id = setTimeout(r, ms);
+      timeouts.push(id);
+    });
+  }
+
+  function buildPipeline() {
+    const pipe = $('#pipeline');
+    pipe.innerHTML = STAGES.map((s, i) => `
+      <div class="pipe-node" data-stage="${s}">
+        <span class="pipe-icon">${STAGE_ICONS[s]}</span>
+        <span class="pipe-label">${STAGE_LABELS[s]}</span>
+      </div>
+      ${i < STAGES.length - 1 ? '<span class="pipe-arrow">→</span>' : ''}
+    `).join('');
+  }
+
+  function buildDomainTabs() {
+    const tabs = $('#domain-tabs');
+    tabs.innerHTML = DOMAINS.map(d => `
+      <div class="domain-tab${d.id === currentDomain.id ? ' active' : ''}" data-domain="${d.id}">
+        <span class="icon">${d.icon}</span>
+        <span>${d.name}</span>
+      </div>
+    `).join('');
+
+    $$('.domain-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        if (running) return;
+        currentDomain = DOMAINS.find(d => d.id === tab.dataset.domain);
+        currentApp = APPLICATIONS[currentDomain.id][0];
+        selectDomain();
+      });
+    });
+  }
+
+  function selectDomain() {
+    $$('.domain-tab').forEach(t => t.classList.toggle('active', t.dataset.domain === currentDomain.id));
+    buildAppGrid();
+    renderApp();
+    resetState();
+  }
+
+  function buildAppGrid() {
+    const grid = $('#app-grid');
+    const apps = APPLICATIONS[currentDomain.id];
+    grid.innerHTML = apps.map(app => `
+      <div class="app-card${app.id === currentApp.id ? ' active' : ''}" data-app="${app.id}">
+        <div class="app-title">${app.title}</div>
+        <div class="app-task">${app.task}</div>
+      </div>
+    `).join('');
+
+    $$('.app-card').forEach(card => {
+      card.addEventListener('click', () => {
+        if (running) return;
+        currentApp = APPLICATIONS[currentDomain.id].find(a => a.id === card.dataset.app);
+        selectApp();
+      });
+    });
+  }
+
+  function selectApp() {
+    $$('.app-card').forEach(c => c.classList.toggle('active', c.dataset.app === currentApp.id));
+    renderApp();
+    resetState();
+  }
+
+  function renderApp() {
+    $('#task-text').textContent = currentApp.task;
+    $('#cli-prompt').textContent = currentApp.cli;
+
+    const workflowSteps = $('#workflow-steps');
+    workflowSteps.innerHTML = currentApp.steps.map((step, i) => `
+      <div class="workflow-step" data-step="${i}">
+        <span class="step-check">○</span>
+        <span class="step-text">${step}</span>
+      </div>
+    `).join('');
+
+    const svcList = $('#svc-list');
+    svcList.innerHTML = currentApp.services.map(s => `
+      <div class="svc-card" data-svc="${s.name}">
+        <span class="svc-status"></span>
+        <span class="svc-icon">${s.icon}</span>
+        <div class="svc-info">
+          <div class="svc-name">${s.name}</div>
+          <div class="svc-desc">${s.desc}</div>
+        </div>
+      </div>
+    `).join('');
+
+    const fileGrid = $('#file-grid');
+    fileGrid.innerHTML = currentApp.files.map(f => `
+      <div class="file-chip" data-file="${f}">
+        <span class="file-dot"></span>
+        <span class="file-name">${f}</span>
+      </div>
+    `).join('');
+
+    $('#result-text').textContent = currentApp.result;
+  }
+
+  function resetState() {
+    clearTimeouts();
+    running = false;
+    $('#run-btn').disabled = false;
+
+    $$('.pipe-node').forEach(n => n.classList.remove('active', 'done'));
+    $('#panel-task').classList.remove('active');
+    $('#panel-workflow').classList.add('sleep');
+    $('#panel-workflow').classList.remove('active');
+    $('#panel-svc').classList.add('sleep');
+    $('#panel-svc').classList.remove('active');
+    $('#panel-art').classList.add('sleep');
+    $('#panel-art').classList.remove('active');
+    $('#result').classList.add('sleep');
+    $('#result').classList.remove('done');
+
+    $$('.workflow-step').forEach(n => {
+      n.classList.remove('done');
+      n.querySelector('.step-check').textContent = '○';
+    });
+    $$('.svc-card').forEach(c => c.classList.remove('active'));
+    $$('.file-chip').forEach(f => f.classList.remove('done'));
+  }
+
+  function setPipeActive(stage) {
+    $$('.pipe-node').forEach(n => {
+      if (n.dataset.stage === stage) {
+        n.classList.add('active');
+        n.classList.remove('done');
+      } else if (STAGES.indexOf(n.dataset.stage) < STAGES.indexOf(stage)) {
+        n.classList.remove('active');
+        n.classList.add('done');
+      }
+    });
+  }
+
+  function setPipeDone(stage) {
+    const node = $(`.pipe-node[data-stage="${stage}"]`);
+    if (node) {
+      node.classList.remove('active');
+      node.classList.add('done');
+    }
+  }
+
+  async function run() {
+    if (running) return;
+    resetState();
+    running = true;
+    $('#run-btn').disabled = true;
+
+    // Ask phase
+    setPipeActive('ask');
+    $('#panel-task').classList.add('active');
+    await delay(500);
+    setPipeDone('ask');
+    $('#panel-task').classList.remove('active');
+
+    // Plan phase - show workflow steps
+    setPipeActive('plan');
+    $('#panel-workflow').classList.remove('sleep');
+    $('#panel-workflow').classList.add('active');
+    await delay(200);
+    for (let i = 0; i < currentApp.steps.length; i++) {
+      const step = $(`.workflow-step[data-step="${i}"]`);
+      step.classList.add('done');
+      step.querySelector('.step-check').textContent = '✓';
+      await delay(180);
+    }
+    await delay(200);
+    setPipeDone('plan');
+    $('#panel-workflow').classList.remove('active');
+
+    // Compute phase - show services
+    setPipeActive('compute');
+    $('#panel-svc').classList.remove('sleep');
+    $('#panel-svc').classList.add('active');
+    await delay(200);
+    for (const svc of currentApp.services) {
+      $(`.svc-card[data-svc="${svc.name}"]`).classList.add('active');
+      await delay(350);
+    }
+    await delay(200);
+    
+    // Show output files during compute
+    $('#panel-art').classList.remove('sleep');
+    $('#panel-art').classList.add('active');
+    await delay(200);
+    for (const file of currentApp.files) {
+      $(`.file-chip[data-file="${file}"]`).classList.add('done');
+      await delay(140);
+    }
+    await delay(200);
+    setPipeDone('compute');
+    $('#panel-svc').classList.remove('active');
+    $('#panel-art').classList.remove('active');
+
+    // Results phase
+    setPipeActive('results');
+    $('#result').classList.remove('sleep');
+    await delay(400);
+    setPipeDone('results');
+    $('#result').classList.add('done');
+
+    running = false;
+    $('#run-btn').disabled = false;
+  }
+
+  // Init
+  buildPipeline();
+  buildDomainTabs();
+  buildAppGrid();
+  renderApp();
+  resetState();
+
+  $('#run-btn').addEventListener('click', run);
+})();
+</script>
+</body>
+</html>
