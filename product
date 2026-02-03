@@ -1,0 +1,460 @@
+<!-- =========================
+     SciAgent Hero (GoDaddy Websites + Marketing)
+     Full-bleed background + centered content that fills available space
+     Paste this entire block into your HTML section
+========================= -->
+
+<div id="sa-hero">
+  <div class="sa-inner">
+    <div class="sa-hero-content">
+      <div class="sa-hero-badge">
+        <span class="sa-hero-dot"></span>
+        Open Source
+      </div>
+      <h1 class="sa-hero-title">Get started</h1>
+      <p class="sa-hero-sub">AI agent and reusable skills for science and engineering workflows.</p>
+    </div>
+
+    <!-- Product Toggle -->
+    <div class="sa-products">
+      <div class="sa-product-tabs">
+        <button class="sa-tab active" type="button" data-product="agent">SciAgent CLI</button>
+        <button class="sa-tab" type="button" data-product="env">SciEnv Sandbox</button>
+      </div>
+
+      <!-- SciAgent Panel -->
+      <div class="sa-product-panel active" id="panel-agent">
+        <div class="sa-product-header">
+          <div class="sa-product-icon">▣</div>
+          <div>
+            <h2 class="sa-product-name">SciAgent CLI</h2>
+            <p class="sa-product-tagline">LLM-agnostic agent with DAG orchestration</p>
+          </div>
+        </div>
+
+        <div class="sa-product-features">
+          <div class="sa-feature">
+            <span class="sa-feature-icon">⫘</span>
+            <div>
+              <strong>DAG Task Decomposition</strong>
+              <p>Break complex workflows into dependency graphs</p>
+            </div>
+          </div>
+          <div class="sa-feature">
+            <span class="sa-feature-icon">🔀</span>
+            <div>
+              <strong>Multi-Model Support</strong>
+              <p>Claude, GPT-4, Gemini, or local models</p>
+            </div>
+          </div>
+          <div class="sa-feature">
+            <span class="sa-feature-icon">✦</span>
+            <div>
+              <strong>Novelty Detection</strong>
+              <p>Validate results against known baselines</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="sa-product-code">
+          <code><span class="sa-code-dim">$</span> pip install sciagent</code>
+          <code><span class="sa-code-dim">$</span> sciagent <span class="sa-code-str">"Design photonic crystal at 1550nm"</span></code>
+        </div>
+
+        <div class="sa-product-cta">
+          <a href="https://github.com/sciagent-ai/sciagent-cli" class="sa-btn sa-btn-primary" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://sciagent-ai.github.io/sciagent-cli/" class="sa-btn sa-btn-secondary" target="_blank" rel="noopener">Docs</a>
+        </div>
+      </div>
+
+      <!-- SciEnv Panel -->
+      <div class="sa-product-panel" id="panel-env">
+        <div class="sa-product-header">
+          <div class="sa-product-icon">📦</div>
+          <div>
+            <h2 class="sa-product-name">SciEnv Sandbox</h2>
+            <p class="sa-product-tagline">Portable scientific skills for any AI coding tool</p>
+          </div>
+        </div>
+
+        <div class="sa-product-compat">
+          <span class="sa-compat-label">Works with:</span>
+          <div class="sa-compat-list">
+            <span>Claude Code</span>
+            <span>Codex CLI</span>
+            <span>Gemini CLI</span>
+            <span>Cursor</span>
+            <span>Windsurf</span>
+          </div>
+        </div>
+
+        <div class="sa-product-features">
+          <div class="sa-feature">
+            <span class="sa-feature-icon">🔄</span>
+            <div>
+              <strong>Write Once, Run Anywhere</strong>
+              <p>Same skills across all AI coding assistants</p>
+            </div>
+          </div>
+          <div class="sa-feature">
+            <span class="sa-feature-icon">📦</span>
+            <div>
+              <strong>Containerized</strong>
+              <p>Reproducible Docker environments</p>
+            </div>
+          </div>
+          <div class="sa-feature">
+            <span class="sa-feature-icon">🤝</span>
+            <div>
+              <strong>Team Sharing</strong>
+              <p>Version-controlled, reusable skills</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="sa-product-code">
+          <code><span class="sa-code-dim">$</span> pip install scienv</code>
+          <code><span class="sa-code-dim">$</span> scienv init --tool <span class="sa-code-str">claude-code</span></code>
+        </div>
+
+        <div class="sa-product-cta">
+          <a href="https://github.com/sciagent-ai/scienv" class="sa-btn sa-btn-primary" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://sciagent-ai.github.io/scienv/" class="sa-btn sa-btn-secondary" target="_blank" rel="noopener">Docs</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shared -->
+    <div class="sa-shared">
+      <p class="sa-shared-label">Both powered by the same containerized services</p>
+      <div class="sa-shared-icons">
+        <span title="OpenFOAM">≋</span>
+        <span title="GROMACS">⚛</span>
+        <span title="RDKit">⬡</span>
+        <span title="MEEP">◈</span>
+        <span title="CVXPY">∫</span>
+        <span title="Elmer">▽</span>
+        <span title="ngspice">⏚</span>
+        <span title="SymPy">π</span>
+      </div>
+    </div>
+  </div><!-- /.sa-inner -->
+</div><!-- /#sa-hero -->
+
+<style>
+/* =========================
+   THEME
+========================= */
+:root{
+  --sa-bg: #000000;
+  --sa-surface-1: #0a0a0a;
+  --sa-surface-2: #111111;
+  --sa-surface-3: #0d0d0d;
+  --sa-border: #1f1f1f;
+  --sa-border-2: #2a2a2a;
+  --sa-text: #fafafa;
+  --sa-muted: #a1a1aa;
+  --sa-dim: #71717a;
+}
+
+/* =========================
+   FULL-BLEED SECTION (fills space)
+   - #sa-hero spans the viewport width
+   - .sa-inner controls readable max width
+========================= */
+#sa-hero{
+  background: var(--sa-bg) !important;
+  color: var(--sa-text);
+  width: 100%;
+  margin: 0;
+  padding: 60px 0;
+
+  /* GoDaddy tends to override fonts */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+#sa-hero, #sa-hero *{ box-sizing: border-box; }
+
+/* This is the "content width" knob */
+#sa-hero .sa-inner{
+  max-width: 1200px;     /* increase if you want wider */
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* If GoDaddy’s section is boxed and you want true edge-to-edge, uncomment:
+#sa-hero{
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+*/
+
+/* =========================
+   HERO CONTENT
+========================= */
+.sa-hero-content{ text-align:center; margin-bottom:40px; }
+
+.sa-hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 14px;
+  background: var(--sa-surface-2);
+  border:1px solid var(--sa-border-2);
+  border-radius:100px;
+  font-size:12px;
+  font-weight:500;
+  color: var(--sa-muted);
+  margin-bottom:20px;
+}
+.sa-hero-dot{
+  width:6px;height:6px;
+  background:#22c55e;
+  border-radius:50%;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.5;} }
+
+.sa-hero-title{
+  font-size:42px;
+  font-weight:700;
+  letter-spacing:-0.03em;
+  margin:0 0 16px 0;
+  background: linear-gradient(180deg, #fff 0%, var(--sa-muted) 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.sa-hero-sub{
+  font-size:18px;
+  color: var(--sa-dim);
+  margin:0 auto;
+  max-width: 680px;
+  line-height:1.6;
+}
+
+/* =========================
+   PRODUCTS
+========================= */
+.sa-products{
+  background: var(--sa-surface-1);
+  border:1px solid var(--sa-border);
+  border-radius:20px;
+  overflow:hidden;
+
+  /* this helps it feel “full” */
+  width: 100%;
+}
+
+.sa-product-tabs{
+  display:flex;
+  background: var(--sa-surface-2);
+  border-bottom:1px solid var(--sa-border);
+}
+.sa-tab{
+  flex:1;
+  padding:16px 24px;
+  background:transparent;
+  border:none;
+  color: var(--sa-dim);
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  transition: all .2s;
+  position:relative;
+}
+.sa-tab:hover{ color: var(--sa-muted); }
+.sa-tab.active{
+  color: var(--sa-text);
+  background: var(--sa-surface-1);
+}
+.sa-tab.active::after{
+  content:'';
+  position:absolute;
+  left:0; right:0; bottom:-1px;
+  height:2px;
+  background:#fff;
+}
+
+.sa-product-panel{ display:none; padding:28px; }
+.sa-product-panel.active{ display:block; }
+
+.sa-product-header{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-bottom:24px;
+}
+.sa-product-icon{
+  width:56px; height:56px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: linear-gradient(135deg, #222, #111);
+  border:1px solid #333;
+  border-radius:16px;
+  font-size:24px;
+}
+.sa-product-name{ font-size:24px; font-weight:700; margin:0; }
+.sa-product-tagline{ font-size:14px; color: var(--sa-dim); margin:4px 0 0 0; }
+
+/* Compatibility */
+.sa-product-compat{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:24px;
+  flex-wrap:wrap;
+}
+.sa-compat-label{ font-size:12px; color:#6b6b6b; }
+.sa-compat-list{ display:flex; flex-wrap:wrap; gap:8px; }
+.sa-compat-list span{
+  padding:4px 10px;
+  background: var(--sa-surface-2);
+  border:1px solid var(--sa-border-2);
+  border-radius:6px;
+  font-size:11px;
+  font-weight:500;
+  color: var(--sa-muted);
+}
+
+/* Features */
+.sa-product-features{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:16px;
+  margin-bottom:24px;
+}
+@media (max-width: 700px){
+  .sa-product-features{ grid-template-columns:1fr; }
+}
+
+.sa-feature{
+  display:flex;
+  gap:12px;
+  padding:16px;
+  background: var(--sa-surface-3);
+  border:1px solid var(--sa-border);
+  border-radius:12px;
+}
+.sa-feature-icon{
+  width:36px; height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: var(--sa-surface-2);
+  border-radius:10px;
+  font-size:16px;
+  flex-shrink:0;
+}
+.sa-feature strong{ display:block; font-size:13px; margin-bottom:4px; }
+.sa-feature p{ font-size:12px; color: var(--sa-dim); margin:0; line-height:1.4; }
+
+/* Code */
+.sa-product-code{
+  background: var(--sa-surface-3);
+  border:1px solid var(--sa-border-2);
+  border-radius:12px;
+  padding:16px;
+  margin-bottom:24px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.sa-product-code code{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace !important;
+  font-size:13px;
+  color: var(--sa-text);
+}
+.sa-code-dim{ color:#666; }
+.sa-code-str{ color:#6ee7b7; }
+
+/* CTA */
+.sa-product-cta{ display:flex; gap:12px; }
+.sa-btn{
+  padding:12px 24px;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:600;
+  text-decoration:none;
+  transition: all .15s;
+  display:inline-block;
+  text-align:center;
+}
+.sa-btn-primary{ background:#fff; color:#000; }
+.sa-btn-primary:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255,255,255,0.15);
+}
+.sa-btn-secondary{
+  background:#222;
+  color: var(--sa-text);
+  border:1px solid #333;
+}
+.sa-btn-secondary:hover{ background:#2b2b2b; }
+
+/* Shared */
+.sa-shared{
+  margin-top:32px;
+  padding-top:24px;
+  border-top:1px solid var(--sa-border);
+  text-align:center;
+}
+.sa-shared-label{ font-size:12px; color:#6b6b6b; margin:0 0 16px 0; }
+.sa-shared-icons{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.sa-shared-icons span{
+  width:44px; height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: var(--sa-surface-2);
+  border:1px solid var(--sa-border-2);
+  border-radius:12px;
+  font-size:18px;
+  cursor:default;
+  transition: all .15s;
+}
+.sa-shared-icons span:hover{
+  border-color:#444;
+  transform: translateY(-2px);
+}
+
+/* Mobile */
+@media (max-width: 500px){
+  .sa-hero-title{ font-size:32px; }
+  .sa-hero-sub{ font-size:16px; }
+  .sa-product-header{ flex-direction:column; text-align:center; }
+  .sa-product-cta{ flex-direction:column; }
+}
+</style>
+
+<script>
+/* Tabs: works if GoDaddy allows scripts in your HTML block */
+(function(){
+  var root = document.getElementById('sa-hero');
+  if(!root) return;
+
+  var tabs = root.querySelectorAll('.sa-tab');
+  var panels = root.querySelectorAll('.sa-product-panel');
+
+  function activate(product){
+    tabs.forEach(function(t){
+      t.classList.toggle('active', t.dataset.product === product);
+    });
+    panels.forEach(function(p){
+      p.classList.toggle('active', p.id === ('panel-' + product));
+    });
+  }
+
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      activate(this.dataset.product);
+    });
+  });
+})();
+</script>
