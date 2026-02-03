@@ -1,0 +1,953 @@
+<!-- =========================
+     SciAgent - Unified Section
+     Differentiation + Demo + Get Started
+     Single embeddable block for GoDaddy
+========================= -->
+
+<div id="sciagent-section">
+  
+  <!-- Header with differentiation -->
+  <div class="sa-header">
+    <div class="sa-badge">
+      <span class="sa-badge-dot"></span>
+      Open Source
+    </div>
+    <div class="sa-logo">
+      <span class="sa-logo-icon">▣</span>
+      <span class="sa-logo-text">SciAgent</span>
+    </div>
+     <p class="sa-tagline">
+       <strong>Task → DAG → Containers → Artifacts</strong><br>
+       SciAgent executes real scientific software in controlled environments—so you don’t burn tokens debugging setup and glue code.
+     </p>    
+    <!-- Differentiator cards -->
+    <div class="sa-diff">
+      <div class="sa-diff-card">
+        <div class="sa-diff-label">Coding agents</div>
+        <div class="sa-diff-output">
+          <span class="sa-diff-line">"Installing OpenFOAM..."</span>
+          <span class="sa-diff-line sa-diff-err">"ModuleNotFoundError: No module named 'scipy'"</span>
+          <span class="sa-diff-line">"Trying a different version..."</span>
+        </div>
+        <div class="sa-diff-you">→ Tokens spent debugging setup</div>
+      </div>
+      <div class="sa-diff-card sa-highlight">
+        <div class="sa-diff-label">SciAgent</div>
+        <div class="sa-diff-output">
+          <span class="sa-diff-line">Simulation complete.</span>
+        </div>
+        <div class="sa-diff-result">
+          <span>✓</span> Cl/Cd = 79.2 — validated
+        </div>
+        <div class="sa-diff-how">→ Pre-configured sandboxed containers</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Demo -->
+  <div class="sa-demo">
+    <div class="sa-demo-top">
+      <div class="sa-demo-label">Try it</div>
+      <div class="sa-pipeline" id="sa-pipeline">
+        <span class="sa-pipe" data-stage="ask">💬 Ask</span>
+        <span class="sa-pipe-arrow">→</span>
+        <span class="sa-pipe" data-stage="compute">⚡ Compute</span>
+        <span class="sa-pipe-arrow">→</span>
+        <span class="sa-pipe" data-stage="results">✓ Results</span>
+      </div>
+    </div>
+
+    <!-- Domains -->
+    <div class="sa-domains" id="sa-domains"></div>
+
+    <!-- Applications -->
+    <div class="sa-apps" id="sa-apps"></div>
+
+    <!-- Run button -->
+    <div class="sa-run-row">
+      <button class="sa-run-btn" id="sa-run-btn">Run Workflow</button>
+    </div>
+
+    <!-- Execution display -->
+    <div class="sa-execution">
+      <div class="sa-exec-left">
+        <div class="sa-exec-panel" id="sa-panel-services">
+          <div class="sa-exec-title">Services</div>
+          <div class="sa-services" id="sa-services"></div>
+        </div>
+      </div>
+      <div class="sa-exec-right">
+        <div class="sa-exec-panel" id="sa-panel-output">
+          <div class="sa-exec-title">Output</div>
+          <div class="sa-files" id="sa-files"></div>
+          <div class="sa-result-box sa-hidden" id="sa-result-box">
+            <div class="sa-result-icon">✓</div>
+            <div class="sa-result-text" id="sa-result-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Get Started -->
+  <div class="sa-install">
+    <div class="sa-install-code">
+      <code><span class="sa-dim">$</span> pip install sciagent</code>
+      <code><span class="sa-dim">$</span> sciagent <span class="sa-str" id="sa-cli-cmd">"Check if this bracket passes under 500N load"</span></code>
+    </div>
+    <div class="sa-install-cta">
+      <a href="https://github.com/sciagent-ai/sciagent-cli" class="sa-btn sa-btn-primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="https://sciagent-ai.github.io/sciagent-cli/" class="sa-btn sa-btn-secondary" target="_blank" rel="noopener">Docs</a>
+    </div>
+    <div class="sa-powered">
+      <div class="sa-powered-row">
+        <span class="sa-powered-label">Supports</span>
+        <span class="sa-powered-list">OpenFOAM · GROMACS · RDKit · MEEP · Elmer · NGSpice · SymPy · ASE · and more</span>
+      </div>
+      <div class="sa-powered-row">
+        <span class="sa-powered-label">Works with</span>
+        <span class="sa-powered-list">Claude · GPT-4 · Gemini · Ollama · any OpenAI-compatible API</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+#sciagent-section {
+  --sa-bg: #000;
+  --sa-surface: #0a0a0a;
+  --sa-surface2: #111;
+  --sa-surface3: #0d0d0d;
+  --sa-border: #1f1f1f;
+  --sa-border2: #2a2a2a;
+  --sa-text: #fafafa;
+  --sa-muted: #a1a1aa;
+  --sa-dim: #71717a;
+  --sa-accent: #6ee7b7;
+  
+  background: var(--sa-bg);
+  color: var(--sa-text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding: 60px 24px;
+  box-sizing: border-box;
+}
+#sciagent-section *, #sciagent-section *::before, #sciagent-section *::after {
+  box-sizing: border-box;
+}
+#sciagent-section .sa-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ===== HEADER ===== */
+.sa-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 40px;
+}
+.sa-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: var(--sa-surface2);
+  border: 1px solid var(--sa-border2);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--sa-muted);
+  margin-bottom: 20px;
+}
+.sa-badge-dot {
+  width: 6px; height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: sa-pulse 2s infinite;
+}
+@keyframes sa-pulse { 0%,100%{opacity:1;} 50%{opacity:.5;} }
+
+.sa-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.sa-logo-icon {
+  width: 44px; height: 44px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+  border: 1px solid var(--sa-border2);
+  border-radius: 12px;
+  font-size: 20px;
+}
+.sa-logo-text {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.sa-tagline {
+  font-size: 16px;
+  color: var(--sa-muted);
+  line-height: 1.6;
+  margin: 0 0 28px 0;
+}
+.sa-tagline strong {
+  color: var(--sa-text);
+}
+
+/* Differentiator */
+.sa-diff {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  text-align: left;
+}
+@media (max-width: 550px) {
+  .sa-diff { grid-template-columns: 1fr; }
+}
+.sa-diff-card {
+  padding: 18px;
+  background: var(--sa-surface);
+  border: 1px solid var(--sa-border);
+  border-radius: 12px;
+}
+.sa-diff-card.sa-highlight {
+  border-color: var(--sa-accent);
+  background: rgba(110,231,183,0.03);
+}
+.sa-diff-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--sa-dim);
+  margin-bottom: 10px;
+}
+.sa-diff-card.sa-highlight .sa-diff-label {
+  color: var(--sa-accent);
+}
+.sa-diff-output {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 12px;
+  color: var(--sa-muted);
+  line-height: 1.5;
+}
+.sa-diff-line {
+  display: block;
+}
+.sa-diff-err {
+  color: #f87171;
+}
+.sa-diff-card.sa-highlight .sa-diff-output {
+  color: var(--sa-text);
+  font-weight: 500;
+}
+.sa-diff-you {
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--sa-dim);
+}
+.sa-diff-how {
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--sa-accent);
+  opacity: 0.8;
+}
+.sa-diff-result {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 6px 10px;
+  background: rgba(110,231,183,0.1);
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--sa-accent);
+}
+
+/* ===== DEMO ===== */
+.sa-demo {
+  background: var(--sa-surface);
+  border: 1px solid var(--sa-border);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.sa-demo-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--sa-border);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.sa-demo-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sa-dim);
+}
+.sa-pipeline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sa-pipe {
+  padding: 5px 10px;
+  background: var(--sa-surface3);
+  border: 1px solid var(--sa-border);
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--sa-dim);
+  transition: all 0.2s ease;
+}
+.sa-pipe.active {
+  background: var(--sa-surface2);
+  border-color: var(--sa-border2);
+  color: var(--sa-text);
+}
+.sa-pipe.done {
+  background: var(--sa-accent);
+  border-color: var(--sa-accent);
+  color: #000;
+}
+.sa-pipe-arrow {
+  color: var(--sa-border2);
+  font-size: 10px;
+}
+
+/* Domains */
+.sa-domains {
+  display: flex;
+  gap: 6px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--sa-border);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.sa-domain {
+  padding: 7px 12px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--sa-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+.sa-domain:hover {
+  color: var(--sa-text);
+  background: var(--sa-surface2);
+}
+.sa-domain.active {
+  color: var(--sa-text);
+  background: var(--sa-surface2);
+  border-color: var(--sa-border2);
+}
+
+/* Apps */
+.sa-apps {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--sa-border);
+}
+.sa-app {
+  padding: 12px 14px;
+  background: var(--sa-surface3);
+  border: 1px solid var(--sa-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.sa-app:hover {
+  border-color: var(--sa-border2);
+  background: var(--sa-surface2);
+}
+.sa-app.active {
+  border-color: var(--sa-accent);
+  background: rgba(110,231,183,0.03);
+}
+.sa-app-name {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+.sa-app-task {
+  font-size: 11px;
+  color: var(--sa-dim);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* Run */
+.sa-run-row {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--sa-border);
+  text-align: center;
+}
+.sa-run-btn {
+  padding: 10px 32px;
+  background: var(--sa-text);
+  color: var(--sa-bg);
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.sa-run-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255,255,255,0.1);
+}
+.sa-run-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Execution */
+.sa-execution {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 180px;
+}
+@media (max-width: 600px) {
+  .sa-execution { grid-template-columns: 1fr; }
+}
+.sa-exec-left {
+  border-right: 1px solid var(--sa-border);
+}
+@media (max-width: 600px) {
+  .sa-exec-left { border-right: none; border-bottom: 1px solid var(--sa-border); }
+}
+.sa-exec-panel {
+  padding: 16px 20px;
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+.sa-exec-panel.active {
+  opacity: 1;
+}
+.sa-exec-title {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sa-dim);
+  margin-bottom: 12px;
+}
+
+/* Services */
+.sa-services {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sa-svc {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--sa-surface3);
+  border: 1px solid var(--sa-border);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+.sa-svc.active {
+  border-color: var(--sa-border2);
+}
+.sa-svc-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--sa-border);
+  transition: all 0.2s ease;
+}
+.sa-svc.active .sa-svc-dot {
+  background: #4ade80;
+  box-shadow: 0 0 8px #4ade80;
+}
+.sa-svc-name {
+  font-size: 12px;
+  font-weight: 600;
+}
+.sa-svc-desc {
+  font-size: 10px;
+  color: var(--sa-dim);
+  margin-left: auto;
+}
+
+/* Files */
+.sa-files {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.sa-file {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 8px;
+  background: var(--sa-surface3);
+  border: 1px solid var(--sa-border);
+  border-radius: 5px;
+  transition: all 0.2s ease;
+}
+.sa-file.done {
+  border-color: var(--sa-border2);
+}
+.sa-file-dot {
+  width: 5px; height: 5px;
+  border-radius: 2px;
+  background: var(--sa-border);
+  transition: all 0.2s ease;
+}
+.sa-file.done .sa-file-dot {
+  background: var(--sa-accent);
+}
+.sa-file-name {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  color: var(--sa-dim);
+}
+.sa-file.done .sa-file-name {
+  color: var(--sa-muted);
+}
+
+/* Result */
+.sa-result-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(110,231,183,0.05);
+  border: 1px solid rgba(110,231,183,0.2);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+.sa-result-box.sa-hidden {
+  opacity: 0;
+  transform: translateY(4px);
+}
+.sa-result-icon {
+  color: var(--sa-accent);
+  font-size: 14px;
+  font-weight: 600;
+}
+.sa-result-text {
+  font-size: 12px;
+  color: var(--sa-text);
+  line-height: 1.5;
+}
+
+/* ===== INSTALL ===== */
+.sa-install {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+.sa-install-code {
+  background: var(--sa-surface);
+  border: 1px solid var(--sa-border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sa-install-code code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 13px;
+  color: var(--sa-text);
+  display: block;
+}
+.sa-dim { color: #555; }
+.sa-str { color: var(--sa-accent); }
+
+.sa-install-cta {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.sa-btn {
+  padding: 11px 22px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.sa-btn-primary {
+  background: #fff;
+  color: #000;
+}
+.sa-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255,255,255,0.15);
+}
+.sa-btn-secondary {
+  background: var(--sa-surface2);
+  color: var(--sa-text);
+  border: 1px solid var(--sa-border2);
+}
+.sa-btn-secondary:hover {
+  background: var(--sa-surface);
+}
+
+.sa-powered {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--sa-dim);
+}
+.sa-powered-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.sa-powered-label {
+  font-weight: 500;
+  color: var(--sa-dim);
+}
+.sa-powered-list {
+  color: var(--sa-muted);
+}
+
+@media (max-width: 500px) {
+  .sa-install-cta { flex-direction: column; align-items: center; }
+  .sa-btn { width: 100%; max-width: 200px; justify-content: center; }
+}
+</style>
+
+<script>
+(function() {
+  const DOMAINS = [
+    { id: 'structures', name: 'Structures', icon: '△' },
+    { id: 'chemistry', name: 'Chemistry', icon: '⬡' },
+    { id: 'photonics', name: 'Photonics', icon: '◈' },
+    { id: 'biology', name: 'Biology', icon: '🧬' },
+    { id: 'fluids', name: 'Fluids', icon: '≋' },
+    { id: 'circuits', name: 'Circuits', icon: '⏚' },
+  ];
+
+  const APPS = {
+    structures: [
+      {
+        id: 'bracket',
+        name: 'Stress analysis',
+        task: 'Check if this bracket passes under 500N',
+        cli: '"Check if this bracket passes under 500N load"',
+        services: [
+          { name: 'gmsh', desc: 'Meshing' },
+          { name: 'elmer', desc: 'FEM solver' },
+        ],
+        files: ['mesh.msh', 'stress.vtk', 'report.md'],
+        result: 'Max von Mises 127 MPa vs 250 MPa yield — Safety factor 2.0 ✓ PASS',
+      },
+      {
+        id: 'modal',
+        name: 'Modal analysis',
+        task: 'Find natural frequencies to avoid resonance',
+        cli: '"Find first 10 natural frequencies of beam.step"',
+        services: [
+          { name: 'gmsh', desc: 'Meshing' },
+          { name: 'elmer', desc: 'Eigenvalue solver' },
+        ],
+        files: ['modes.vtk', 'frequencies.csv'],
+        result: 'First mode at 142 Hz — well above 60Hz excitation ✓',
+      },
+    ],
+    chemistry: [
+      {
+        id: 'screening',
+        name: 'Drug-likeness screening',
+        task: 'Screen compounds for CNS drug candidates',
+        cli: '"Screen compounds.sdf for CNS permeability"',
+        services: [
+          { name: 'rdkit', desc: 'Molecular analysis' },
+          { name: 'scipy', desc: 'Clustering' },
+        ],
+        files: ['hits.csv', 'scaffolds.smi', 'diversity.png'],
+        result: '47 compounds pass; 3 novel scaffolds with logBB > 0.3',
+      },
+      {
+        id: 'similarity',
+        name: 'Similarity search',
+        task: 'Find analogs similar to my lead compound',
+        cli: '"Find molecules with Tanimoto >0.7 to lead.mol"',
+        services: [
+          { name: 'rdkit', desc: 'Fingerprints' },
+        ],
+        files: ['similar.csv', 'clusters.png'],
+        result: '23 analogs found; top hit 89% similarity',
+      },
+    ],
+    photonics: [
+      {
+        id: 'grating',
+        name: 'Grating coupler',
+        task: 'Optimize grating for 1550nm, >50% efficiency',
+        cli: '"Optimize grating coupler for 1550nm telecom"',
+        services: [
+          { name: 'rcwa', desc: 'Wave analysis' },
+          { name: 'meep', desc: 'FDTD validation' },
+        ],
+        files: ['design.gds', 'sweep.csv', 'efficiency.png'],
+        result: '62% coupling efficiency at 1550nm, 40nm bandwidth',
+      },
+      {
+        id: 'waveguide',
+        name: 'Waveguide bend',
+        task: 'Design low-loss 90° bend for silicon photonics',
+        cli: '"Design 90° waveguide bend with <0.1dB loss"',
+        services: [
+          { name: 'meep', desc: 'Mode simulation' },
+        ],
+        files: ['bend.gds', 'mode.png', 'loss.csv'],
+        result: 'Optimal radius 5μm achieves 0.04dB loss per 90°',
+      },
+    ],
+    biology: [
+      {
+        id: 'stability',
+        name: 'Protein stability',
+        task: 'Check if protein stays stable over 100ns',
+        cli: '"Run 100ns MD of protein.pdb, analyze RMSD"',
+        services: [
+          { name: 'gromacs', desc: 'MD engine' },
+          { name: 'scipy', desc: 'Analysis' },
+        ],
+        files: ['traj.xtc', 'rmsd.xvg', 'rmsf.png'],
+        result: 'RMSD stable at 2.1±0.3Å; no unfolding observed ✓',
+      },
+      {
+        id: 'homology',
+        name: 'Sequence search',
+        task: 'Find evolutionary relatives of my protein',
+        cli: '"BLAST search for homologs of sequence.fasta"',
+        services: [
+          { name: 'blast', desc: 'Alignment' },
+          { name: 'biopython', desc: 'Parsing' },
+        ],
+        files: ['results.xml', 'top_hits.csv'],
+        result: '156 homologs; closest 78% identity to human ortholog',
+      },
+    ],
+    fluids: [
+      {
+        id: 'airfoil',
+        name: 'Airfoil analysis',
+        task: 'Calculate lift/drag for NACA 0012',
+        cli: '"Simulate NACA 0012 at Re=1e6, report Cl/Cd"',
+        services: [
+          { name: 'gmsh', desc: 'Meshing' },
+          { name: 'openfoam', desc: 'CFD solver' },
+        ],
+        files: ['mesh.msh', 'Cl_Cd.csv', 'pressure.png'],
+        result: 'Cl/Cd max at α=8°; within 2% of experiment ✓',
+      },
+      {
+        id: 'heatsink',
+        name: 'Heat sink',
+        task: 'Validate cooling performance under 50W load',
+        cli: '"Simulate heat sink with 50W, find max temp"',
+        services: [
+          { name: 'gmsh', desc: 'Thermal mesh' },
+          { name: 'elmer', desc: 'Heat solver' },
+        ],
+        files: ['temp.vtk', 'resistance.txt'],
+        result: 'Max junction 67°C; thermal resistance 0.84 K/W ✓',
+      },
+    ],
+    circuits: [
+      {
+        id: 'filter',
+        name: 'Filter design',
+        task: 'Design 10MHz bandpass filter to spec',
+        cli: '"Design 10MHz bandpass filter, Q=10, 50Ω"',
+        services: [
+          { name: 'ngspice', desc: 'SPICE sim' },
+          { name: 'scipy', desc: 'Optimization' },
+        ],
+        files: ['schematic.net', 'bode.png', 'bom.csv'],
+        result: 'Center 10.02 MHz, -3dB BW ±0.5MHz, E96 values ✓',
+      },
+      {
+        id: 'amplifier',
+        name: 'Amplifier analysis',
+        task: 'Analyze gain and bandwidth of amplifier',
+        cli: '"Analyze amplifier.spice for gain, bandwidth"',
+        services: [
+          { name: 'ngspice', desc: 'AC/DC analysis' },
+        ],
+        files: ['ac.csv', 'bode.png'],
+        result: 'Gain 34dB at 1kHz, bandwidth 2.1MHz',
+      },
+    ],
+  };
+
+  const STAGES = ['ask', 'compute', 'results'];
+  let currentDomain = DOMAINS[0];
+  let currentApp = APPS[currentDomain.id][0];
+  let running = false;
+  let timeouts = [];
+
+  function $(sel) { return document.querySelector(sel); }
+  function $$(sel) { return document.querySelectorAll(sel); }
+  function delay(ms) {
+    return new Promise(r => { timeouts.push(setTimeout(r, ms)); });
+  }
+  function clearTimeouts() { timeouts.forEach(clearTimeout); timeouts = []; }
+
+  function render() {
+    // Domains
+    $('#sa-domains').innerHTML = DOMAINS.map(d => 
+      `<div class="sa-domain${d.id === currentDomain.id ? ' active' : ''}" data-id="${d.id}">${d.icon} ${d.name}</div>`
+    ).join('');
+
+    // Apps
+    const apps = APPS[currentDomain.id];
+    $('#sa-apps').innerHTML = apps.map(a => 
+      `<div class="sa-app${a.id === currentApp.id ? ' active' : ''}" data-id="${a.id}">
+        <div class="sa-app-name">${a.name}</div>
+        <div class="sa-app-task">"${a.task}"</div>
+      </div>`
+    ).join('');
+
+    // Services
+    $('#sa-services').innerHTML = currentApp.services.map(s => 
+      `<div class="sa-svc" data-name="${s.name}">
+        <span class="sa-svc-dot"></span>
+        <span class="sa-svc-name">${s.name}</span>
+        <span class="sa-svc-desc">${s.desc}</span>
+      </div>`
+    ).join('');
+
+    // Files
+    $('#sa-files').innerHTML = currentApp.files.map(f => 
+      `<div class="sa-file" data-name="${f}">
+        <span class="sa-file-dot"></span>
+        <span class="sa-file-name">${f}</span>
+      </div>`
+    ).join('');
+
+    // Result
+    $('#sa-result-text').textContent = currentApp.result;
+    $('#sa-result-box').classList.add('sa-hidden');
+
+    // CLI
+    $('#sa-cli-cmd').textContent = currentApp.cli;
+
+    // Reset state
+    resetState();
+  }
+
+  function resetState() {
+    clearTimeouts();
+    running = false;
+    $('#sa-run-btn').disabled = false;
+    $$('.sa-pipe').forEach(p => p.classList.remove('active', 'done'));
+    $('#sa-panel-services').classList.remove('active');
+    $('#sa-panel-output').classList.remove('active');
+    $$('.sa-svc').forEach(s => s.classList.remove('active'));
+    $$('.sa-file').forEach(f => f.classList.remove('done'));
+    $('#sa-result-box').classList.add('sa-hidden');
+  }
+
+  async function run() {
+    if (running) return;
+    resetState();
+    running = true;
+    $('#sa-run-btn').disabled = true;
+
+    // Ask
+    $('[data-stage="ask"]').classList.add('active');
+    await delay(400);
+    $('[data-stage="ask"]').classList.remove('active');
+    $('[data-stage="ask"]').classList.add('done');
+
+    // Compute
+    $('[data-stage="compute"]').classList.add('active');
+    $('#sa-panel-services').classList.add('active');
+    await delay(200);
+    
+    for (const svc of currentApp.services) {
+      $(`.sa-svc[data-name="${svc.name}"]`).classList.add('active');
+      await delay(300);
+    }
+
+    $('#sa-panel-output').classList.add('active');
+    await delay(150);
+    
+    for (const file of currentApp.files) {
+      $(`.sa-file[data-name="${file}"]`).classList.add('done');
+      await delay(120);
+    }
+    
+    await delay(200);
+    $('[data-stage="compute"]').classList.remove('active');
+    $('[data-stage="compute"]').classList.add('done');
+
+    // Results
+    $('[data-stage="results"]').classList.add('active');
+    await delay(150);
+    $('#sa-result-box').classList.remove('sa-hidden');
+    await delay(300);
+    $('[data-stage="results"]').classList.remove('active');
+    $('[data-stage="results"]').classList.add('done');
+
+    running = false;
+    $('#sa-run-btn').disabled = false;
+  }
+
+  // Events
+  document.addEventListener('click', e => {
+    if (running) return;
+    
+    const domain = e.target.closest('.sa-domain');
+    if (domain) {
+      currentDomain = DOMAINS.find(d => d.id === domain.dataset.id);
+      currentApp = APPS[currentDomain.id][0];
+      render();
+    }
+
+    const app = e.target.closest('.sa-app');
+    if (app) {
+      currentApp = APPS[currentDomain.id].find(a => a.id === app.dataset.id);
+      render();
+    }
+  });
+
+  $('#sa-run-btn').addEventListener('click', run);
+
+  // Init
+  render();
+})();
+</script>
