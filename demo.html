@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SciAgent CLI — Visual Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --bg: #08080a;
+      --surface: #0c0c0e;
+      --surface2: #101012;
+      --border: #1a1a1e;
+      --border2: #252529;
+      --text: #f0f0f2;
+      --muted: #808088;
+      --dim: #505058;
+      --accent: #fff;
+      --glow: rgba(255,255,255,0.08);
+    }
+
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    .demo {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 16px 8px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #1a1a1e 0%, #0c0c0e 100%);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      font-size: 16px;
+    }
+    .brand-name {
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: -0.01em;
+    }
+    .tagline {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+      background: linear-gradient(180deg, #fff 0%, #a0a0a8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* Pipeline */
+    .pipeline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .pipe-node {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      opacity: 0.4;
+      transition: all 0.25s ease;
+    }
+    .pipe-node.active {
+      opacity: 1;
+      border-color: var(--accent);
+      background: var(--surface2);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .pipe-node.done {
+      opacity: 1;
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--bg);
+    }
+    .pipe-icon {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .pipe-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .pipe-arrow {
+      color: var(--dim);
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    /* Use case grid */
+    .uc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .uc-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+    .uc-card:hover {
+      border-color: var(--border2);
+      background: var(--surface2);
+    }
+    .uc-card.active {
+      border-color: var(--accent);
+      background: var(--surface2);
+    }
+    .uc-icon {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .uc-card.active .uc-icon {
+      background: var(--surface2);
+      border-color: var(--border2);
+    }
+    .uc-text { flex: 1; min-width: 0; }
+    .uc-title {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .uc-desc {
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Run button */
+    .run-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+    .run-btn {
+      padding: 14px 48px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .run-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(255,255,255,0.1);
+    }
+    .run-btn:active {
+      transform: translateY(0);
+    }
+    .run-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Main grid */
+    .main-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 1000px) {
+      .main-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .main-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Panels */
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .panel.sleep {
+      opacity: 0.2;
+      filter: blur(1px);
+      pointer-events: none;
+    }
+    .panel.active {
+      border-color: var(--border2);
+      box-shadow: 0 0 0 1px var(--glow);
+    }
+    .panel-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+      background: linear-gradient(180deg, var(--surface2) 0%, var(--surface) 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .panel-icon {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .panel-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .panel-body {
+      padding: 16px;
+    }
+
+    /* CLI box */
+    .cli-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .cli-prompt {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #6cf;
+      word-break: break-all;
+    }
+
+    /* Loop indicator */
+    .loop {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      background: var(--bg);
+      border: 1px dashed var(--border2);
+      border-radius: 12px;
+      flex-wrap: wrap;
+    }
+    .loop-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      background: var(--surface);
+      border-radius: 8px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .loop-chip span { font-size: 12px; }
+    .loop-arr {
+      color: var(--dim);
+      font-size: 11px;
+    }
+
+    /* DAG */
+    .dag-flow {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .dag-node {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+    .dag-node.done {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--bg);
+    }
+    .dag-num {
+      width: 18px;
+      height: 18px;
+      display: grid;
+      place-items: center;
+      background: var(--surface);
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .dag-node.done .dag-num {
+      background: rgba(0,0,0,0.2);
+      color: var(--bg);
+    }
+    .dag-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+    }
+    .dag-arr {
+      color: var(--dim);
+      font-size: 10px;
+    }
+
+    /* Services */
+    .svc-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .svc-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+    .svc-card.active {
+      border-color: var(--border2);
+    }
+    .svc-status {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: all 0.2s ease;
+    }
+    .svc-card.active .svc-status {
+      background: #4f4;
+      box-shadow: 0 0 10px #4f4;
+    }
+    .svc-icon {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+    }
+    .svc-info { flex: 1; }
+    .svc-name {
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--text);
+    }
+    .svc-desc {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+    .svc-tag {
+      padding: 4px 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* Files */
+    .file-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .file-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    .file-chip.done {
+      border-color: var(--border2);
+    }
+    .file-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 2px;
+      background: var(--border);
+      transition: all 0.2s ease;
+    }
+    .file-chip.done .file-dot {
+      background: var(--accent);
+    }
+    .file-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .file-chip.done .file-name {
+      color: var(--text);
+    }
+
+    /* Novelty */
+    .novelty {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 24px;
+      transition: all 0.3s ease;
+    }
+    .novelty.sleep {
+      opacity: 0.2;
+      filter: blur(1px);
+    }
+    .novelty.done {
+      border-color: #fa0;
+      box-shadow: 0 0 0 1px rgba(255,170,0,0.1);
+    }
+    .novelty-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .novelty-icon {
+      font-size: 20px;
+      color: #fa0;
+    }
+    .novelty-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .novelty-text {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.6;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .novelty-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .novelty-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* Footer */
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--dim);
+    }
+    .footer code {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--surface);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .footer-dot {
+      color: var(--border2);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="demo" id="demo">
+    <header class="header">
+      <div class="brand">
+        <span class="brand-icon">▣</span>
+        <span class="brand-name">SciAgent CLI</span>
+      </div>
+      <h1 class="tagline">Task → DAG → Services → Artifacts</h1>
+      <p class="subtitle">LLM-agnostic framework for scientific computing & engineering</p>
+    </header>
+
+    <div class="pipeline" id="pipeline"></div>
+
+    <div class="uc-grid" id="uc-grid"></div>
+
+    <div class="run-wrap">
+      <button class="run-btn" id="run-btn">Run Workflow</button>
+    </div>
+
+    <div class="main-grid">
+      <div class="panel" id="panel-task">
+        <div class="panel-head">
+          <span class="panel-icon">⌘</span>
+          <span class="panel-title">Task</span>
+        </div>
+        <div class="panel-body">
+          <div class="cli-box">
+            <code class="cli-prompt" id="cli-prompt"></code>
+          </div>
+          <div class="loop">
+            <span class="loop-chip"><span>🧠</span> plan</span>
+            <span class="loop-arr">→</span>
+            <span class="loop-chip"><span>🛠</span> run</span>
+            <span class="loop-arr">→</span>
+            <span class="loop-chip"><span>👁</span> observe</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel sleep" id="panel-dag">
+        <div class="panel-head">
+          <span class="panel-icon">⫘</span>
+          <span class="panel-title">DAG</span>
+        </div>
+        <div class="panel-body">
+          <div class="dag-flow" id="dag-flow"></div>
+        </div>
+      </div>
+
+      <div class="panel sleep" id="panel-svc">
+        <div class="panel-head">
+          <span class="panel-icon">▣</span>
+          <span class="panel-title">Services</span>
+        </div>
+        <div class="panel-body">
+          <div class="svc-list" id="svc-list"></div>
+        </div>
+      </div>
+
+      <div class="panel sleep" id="panel-art">
+        <div class="panel-head">
+          <span class="panel-icon">◫</span>
+          <span class="panel-title">Artifacts</span>
+        </div>
+        <div class="panel-body">
+          <div class="file-grid" id="file-grid"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="novelty sleep" id="novelty">
+      <div class="novelty-head">
+        <span class="novelty-icon">✦</span>
+        <span class="novelty-label">Novelty Signal</span>
+      </div>
+      <p class="novelty-text" id="novelty-text"></p>
+      <div class="novelty-meta">
+        <span class="novelty-chip">✓ validated</span>
+        <span class="novelty-chip">◫ artifacts saved</span>
+        <span class="novelty-chip">↗ reproducible</span>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <code>pip install sciagent</code>
+      <span class="footer-dot">·</span>
+      <span>Claude · GPT-4 · Gemini · Local</span>
+      <span class="footer-dot">·</span>
+      <span>Apache 2.0</span>
+    </footer>
+  </div>
+
+<script>
+(function() {
+  const USECASES = [
+    {
+      id: 'photonics',
+      icon: '◈',
+      title: 'Photonics',
+      desc: 'Metasurface optimization',
+      cli: 'sciagent "Design photonic crystal with 1550nm bandgap"',
+      tasks: ['parse', 'geometry', 'sweep', 'optimize', 'validate'],
+      services: [
+        { name: 'rcwa', desc: 'S-param sweeps', icon: '◇', tag: 'sim' },
+        { name: 'meep', desc: 'FDTD verify', icon: '▦', tag: 'sim' },
+      ],
+      files: ['design.gds', 'sweep.csv', 'eff.png', 'report.md'],
+      novelty: 'Inverse-designed structure outperforms gratings by 12%',
+    },
+    {
+      id: 'molecules',
+      icon: '⬡',
+      title: 'Molecules',
+      desc: 'Cheminformatics',
+      cli: 'sciagent "Screen compounds for CNS permeability"',
+      tasks: ['load', 'featurize', 'filter', 'rank', 'diversify'],
+      services: [
+        { name: 'rdkit', desc: 'Descriptors', icon: '⬡', tag: 'chem' },
+        { name: 'scipy', desc: 'Clustering', icon: '∑', tag: 'ml' },
+      ],
+      files: ['hits.csv', 'scaffolds.smi', 'diversity.png'],
+      novelty: '3 novel scaffolds with predicted logBB > 0.3',
+    },
+    {
+      id: 'cfd',
+      icon: '≋',
+      title: 'CFD',
+      desc: 'Fluid simulation',
+      cli: 'sciagent "Airflow over NACA 0012 at Re=1e6"',
+      tasks: ['geometry', 'mesh', 'solve', 'post', 'report'],
+      services: [
+        { name: 'gmsh', desc: 'Meshing', icon: '△', tag: 'pre' },
+        { name: 'openfoam', desc: 'RANS', icon: '≋', tag: 'sim' },
+      ],
+      files: ['mesh.msh', 'U.vtk', 'Cp.csv', 'lift.png'],
+      novelty: 'Cl/Cd within 2% of experimental data',
+    },
+    {
+      id: 'moldy',
+      icon: '⚛',
+      title: 'MD Sim',
+      desc: 'Protein dynamics',
+      cli: 'sciagent "100ns MD for lysozyme in water"',
+      tasks: ['topology', 'solvate', 'minimize', 'equil', 'prod'],
+      services: [
+        { name: 'gromacs', desc: 'MD engine', icon: '⚛', tag: 'sim' },
+        { name: 'scipy', desc: 'Analysis', icon: '∿', tag: 'post' },
+      ],
+      files: ['traj.xtc', 'rmsd.xvg', 'rmsf.png'],
+      novelty: 'Rare conformational transition at 67ns',
+    },
+    {
+      id: 'opt',
+      icon: '∫',
+      title: 'Optimization',
+      desc: 'Convex solvers',
+      cli: 'sciagent "Portfolio with 0.12 target return"',
+      tasks: ['load', 'covariance', 'formulate', 'solve', 'backtest'],
+      services: [
+        { name: 'cvxpy', desc: 'QP solver', icon: '∫', tag: 'opt' },
+        { name: 'scipy', desc: 'Stats', icon: '∑', tag: 'post' },
+      ],
+      files: ['weights.csv', 'frontier.png', 'report.md'],
+      novelty: 'Sharpe 1.42 vs benchmark 0.91',
+    },
+    {
+      id: 'symbolic',
+      icon: 'π',
+      title: 'Symbolic',
+      desc: 'Math derivations',
+      cli: 'sciagent "Lagrangian for double pendulum"',
+      tasks: ['coords', 'KE_PE', 'euler', 'simplify', 'export'],
+      services: [
+        { name: 'sympy', desc: 'CAS', icon: 'π', tag: 'sym' },
+        { name: 'scipy', desc: 'Numerical', icon: '∿', tag: 'verify' },
+      ],
+      files: ['eom.tex', 'hamiltonian.py', 'phase.png'],
+      novelty: 'Closed-form for small angles verified numerically',
+    },
+    {
+      id: 'circuits',
+      icon: '⏚',
+      title: 'Circuits',
+      desc: 'SPICE analysis',
+      cli: 'sciagent "Design 10MHz bandpass filter"',
+      tasks: ['spec', 'topology', 'size', 'simulate', 'optimize'],
+      services: [
+        { name: 'ngspice', desc: 'SPICE', icon: '⏚', tag: 'sim' },
+        { name: 'scipy', desc: 'Fitting', icon: '∿', tag: 'post' },
+      ],
+      files: ['schematic.net', 'bode.png', 'bom.csv'],
+      novelty: '-3dB bandwidth within 0.5% using E96 values',
+    },
+    {
+      id: 'fem',
+      icon: '▽',
+      title: 'FEM',
+      desc: 'Structural analysis',
+      cli: 'sciagent "Stress analysis cantilever beam"',
+      tasks: ['cad', 'mesh', 'bc', 'solve', 'extract'],
+      services: [
+        { name: 'gmsh', desc: 'Mesh', icon: '△', tag: 'pre' },
+        { name: 'elmer', desc: 'FEM', icon: '▽', tag: 'sim' },
+      ],
+      files: ['mesh.msh', 'stress.vtk', 'disp.png'],
+      novelty: 'von Mises 127 MPa, safety factor 2.3',
+    },
+  ];
+
+  const STAGES = ['task', 'dag', 'svc', 'art', 'novelty'];
+
+  let current = USECASES[0];
+  let running = false;
+  let timeouts = [];
+
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => document.querySelectorAll(s);
+
+  function clearTimeouts() {
+    timeouts.forEach(clearTimeout);
+    timeouts = [];
+  }
+
+  function delay(ms) {
+    return new Promise(r => {
+      const id = setTimeout(r, ms);
+      timeouts.push(id);
+    });
+  }
+
+  function buildPipeline() {
+    const pipe = $('#pipeline');
+    pipe.innerHTML = STAGES.map((s, i) => `
+      <div class="pipe-node" data-stage="${s}">
+        <span class="pipe-icon">${s === 'task' ? '⌘' : s === 'dag' ? '⫘' : s === 'svc' ? '▣' : s === 'art' ? '◫' : '✦'}</span>
+        <span class="pipe-label">${s === 'svc' ? 'services' : s === 'art' ? 'artifacts' : s}</span>
+      </div>
+      ${i < STAGES.length - 1 ? '<span class="pipe-arrow">→</span>' : ''}
+    `).join('');
+  }
+
+  function buildUCGrid() {
+    const grid = $('#uc-grid');
+    grid.innerHTML = USECASES.map(uc => `
+      <div class="uc-card${uc.id === current.id ? ' active' : ''}" data-uc="${uc.id}">
+        <span class="uc-icon">${uc.icon}</span>
+        <div class="uc-text">
+          <div class="uc-title">${uc.title}</div>
+          <div class="uc-desc">${uc.desc}</div>
+        </div>
+      </div>
+    `).join('');
+
+    $$('.uc-card').forEach(card => {
+      card.addEventListener('click', () => {
+        if (running) return;
+        current = USECASES.find(u => u.id === card.dataset.uc);
+        selectUC();
+      });
+    });
+  }
+
+  function selectUC() {
+    $$('.uc-card').forEach(c => c.classList.toggle('active', c.dataset.uc === current.id));
+    renderUC();
+    resetState();
+  }
+
+  function renderUC() {
+    $('#cli-prompt').textContent = current.cli;
+
+    const dagFlow = $('#dag-flow');
+    dagFlow.innerHTML = current.tasks.map((t, i) => `
+      <div class="dag-node" data-task="${t}">
+        <span class="dag-num">${i + 1}</span>
+        <span class="dag-label">${t}</span>
+      </div>
+      ${i < current.tasks.length - 1 ? '<span class="dag-arr">→</span>' : ''}
+    `).join('');
+
+    const svcList = $('#svc-list');
+    svcList.innerHTML = current.services.map(s => `
+      <div class="svc-card" data-svc="${s.name}">
+        <span class="svc-status"></span>
+        <span class="svc-icon">${s.icon}</span>
+        <div class="svc-info">
+          <div class="svc-name">${s.name}</div>
+          <div class="svc-desc">${s.desc}</div>
+        </div>
+        <span class="svc-tag">${s.tag}</span>
+      </div>
+    `).join('');
+
+    const fileGrid = $('#file-grid');
+    fileGrid.innerHTML = current.files.map(f => `
+      <div class="file-chip" data-file="${f}">
+        <span class="file-dot"></span>
+        <span class="file-name">${f}</span>
+      </div>
+    `).join('');
+
+    $('#novelty-text').textContent = current.novelty;
+  }
+
+  function resetState() {
+    clearTimeouts();
+    running = false;
+    $('#run-btn').disabled = false;
+
+    $$('.pipe-node').forEach(n => n.classList.remove('active', 'done'));
+    $('#panel-task').classList.remove('active');
+    $('#panel-dag').classList.add('sleep');
+    $('#panel-dag').classList.remove('active');
+    $('#panel-svc').classList.add('sleep');
+    $('#panel-svc').classList.remove('active');
+    $('#panel-art').classList.add('sleep');
+    $('#panel-art').classList.remove('active');
+    $('#novelty').classList.add('sleep');
+    $('#novelty').classList.remove('done');
+
+    $$('.dag-node').forEach(n => n.classList.remove('done'));
+    $$('.svc-card').forEach(c => c.classList.remove('active'));
+    $$('.file-chip').forEach(f => f.classList.remove('done'));
+  }
+
+  function setPipeActive(stage) {
+    $$('.pipe-node').forEach(n => {
+      if (n.dataset.stage === stage) {
+        n.classList.add('active');
+        n.classList.remove('done');
+      } else if (STAGES.indexOf(n.dataset.stage) < STAGES.indexOf(stage)) {
+        n.classList.remove('active');
+        n.classList.add('done');
+      }
+    });
+  }
+
+  function setPipeDone(stage) {
+    const node = $(`.pipe-node[data-stage="${stage}"]`);
+    if (node) {
+      node.classList.remove('active');
+      node.classList.add('done');
+    }
+  }
+
+  async function run() {
+    if (running) return;
+    resetState();
+    running = true;
+    $('#run-btn').disabled = true;
+
+    // Task
+    setPipeActive('task');
+    $('#panel-task').classList.add('active');
+    await delay(400);
+    setPipeDone('task');
+    $('#panel-task').classList.remove('active');
+
+    // DAG
+    setPipeActive('dag');
+    $('#panel-dag').classList.remove('sleep');
+    $('#panel-dag').classList.add('active');
+    await delay(200);
+    for (const task of current.tasks) {
+      $(`.dag-node[data-task="${task}"]`).classList.add('done');
+      await delay(180);
+    }
+    await delay(200);
+    setPipeDone('dag');
+    $('#panel-dag').classList.remove('active');
+
+    // Services
+    setPipeActive('svc');
+    $('#panel-svc').classList.remove('sleep');
+    $('#panel-svc').classList.add('active');
+    await delay(200);
+    for (const svc of current.services) {
+      $(`.svc-card[data-svc="${svc.name}"]`).classList.add('active');
+      await delay(300);
+    }
+    await delay(200);
+    setPipeDone('svc');
+    $('#panel-svc').classList.remove('active');
+
+    // Artifacts
+    setPipeActive('art');
+    $('#panel-art').classList.remove('sleep');
+    $('#panel-art').classList.add('active');
+    await delay(200);
+    for (const file of current.files) {
+      $(`.file-chip[data-file="${file}"]`).classList.add('done');
+      await delay(140);
+    }
+    await delay(200);
+    setPipeDone('art');
+    $('#panel-art').classList.remove('active');
+
+    // Novelty
+    setPipeActive('novelty');
+    $('#novelty').classList.remove('sleep');
+    await delay(400);
+    setPipeDone('novelty');
+    $('#novelty').classList.add('done');
+
+    running = false;
+    $('#run-btn').disabled = false;
+  }
+
+  // Init
+  buildPipeline();
+  buildUCGrid();
+  renderUC();
+  resetState();
+
+  $('#run-btn').addEventListener('click', run);
+})();
+</script>
+</body>
+</html>
